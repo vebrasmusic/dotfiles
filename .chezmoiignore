@@ -1,0 +1,8 @@
+dot_ssh/
+dot_gnupg/
+dot_aws/
+.env
+.secrets
+**/*token*
+**/*key*
+*.history
