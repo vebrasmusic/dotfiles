@@ -1,0 +1,10 @@
+
+. "$HOME/.local/bin/env"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+export PATH="$PATH:$(go env GOPATH)/bin"
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+# doing a test edit here
