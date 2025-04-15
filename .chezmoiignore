@@ -4,5 +4,5 @@ dot_aws/
 .env
 .secrets
 **/*token*
-**/*key*
-*.history
+
+.DS_Store
