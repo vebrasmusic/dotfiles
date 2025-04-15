@@ -1,3 +1,5 @@
 return {
-  { 'wakatime/vim-wakatime', lazy = false },
+  -- add gruvbox
+
+  { "wakatime/vim-wakatime", lazy = false },
 }
