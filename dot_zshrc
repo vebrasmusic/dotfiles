@@ -7,4 +7,5 @@ export PATH="$PATH:$(go env GOPATH)/bin"
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-# doing a test edit here
+alias sirch="cd ~/Documents/GitHub/sirch_browser"
+alias projects="cd ~/Documents/GitHub"
