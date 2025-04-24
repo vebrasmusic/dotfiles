@@ -6,35 +6,10 @@
 -- for nvumi
 vim.keymap.set("n", "<leader>on", "<CMD>Nvumi<CR>", { desc = "[O]pen [N]vumi" })
 
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>z",
-  "<cmd>lua require'centerpad'.toggle{ leftpad = 30, rightpad = 0 }<cr>",
-  { silent = true, noremap = true }
-)
-
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 local Terminal = require("toggleterm.terminal").Terminal
--- -- lua/config/keymaps.lua
-vim.keymap.set("n", "<leader>rn", function()
-  return ":IncRename " .. vim.fn.expand("<cword>")
-end, { expr = true })
-
-vim.keymap.set("n", "<leader>inc", function()
-  require("dial.map").manipulate("increment", "normal")
-end)
-vim.keymap.set("n", "<leader>dec", function()
-  require("dial.map").manipulate("decrement", "normal")
-end)
-vim.keymap.set("n", "g<leader>inc", function()
-  require("dial.map").manipulate("increment", "gnormal")
-end)
-vim.keymap.set("n", "g<leader>dec", function()
-  require("dial.map").manipulate("decrement", "gnormal")
-end)
 
 vim.keymap.set("n", "<leader>n", "<C-w>h", { desc = "Focus File Tree" })
-vim.keymap.set("n", "<leader>cod", "<C-w>l", { desc = "Focus Code Window" })
 -- Persistent floating terminal instance
 local float_term = Terminal:new({
   direction = "float",
