@@ -12,3 +12,5 @@ brew "uv"
 brew "nikolaeu/numi/numi-cli"
 cask "dbeaver-community"
 brew "postgresql"
+brew "sqlc"
+
