@@ -9,3 +9,4 @@ source <(fzf --zsh)
 
 alias sirch="cd ~/Documents/GitHub/sirch_browser"
 alias projects="cd ~/Documents/GitHub"
+alias brew-install="brew bundle --file=~/.config/homebrew/Brewfile --no-upgrade"
