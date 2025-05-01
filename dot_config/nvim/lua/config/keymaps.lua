@@ -1,7 +1,5 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
---
--- O-- Add any additional keymaps here
+-- for neorg
+vim.keymap.set("n", "<leader>or", "<Plug>(neorg.dirman.new-note)", { desc = "New Ne[or]g Note" })
 
 -- for nvumi
 vim.keymap.set("n", "<leader>on", "<CMD>Nvumi<CR>", { desc = "[O]pen [N]vumi" })
