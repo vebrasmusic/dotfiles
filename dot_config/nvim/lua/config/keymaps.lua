@@ -1,12 +1,14 @@
--- for neorg
-vim.keymap.set("n", "<leader>or", "<Plug>(neorg.dirman.new-note)", { desc = "New Ne[or]g Note" })
+-- global note
+local global_note = require("global-note")
+vim.keymap.set("n", "<leader>gn", global_note.toggle_note, {
+  desc = "Toggle global note",
+})
 
--- for nvumi
-vim.keymap.set("n", "<leader>on", "<CMD>Nvumi<CR>", { desc = "[O]pen [N]vumi" })
-
+-- oil
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 local Terminal = require("toggleterm.terminal").Terminal
 
+-- focusing file tree
 vim.keymap.set("n", "<leader>n", "<C-w>h", { desc = "Focus File Tree" })
 -- Persistent floating terminal instance
 local float_term = Terminal:new({
