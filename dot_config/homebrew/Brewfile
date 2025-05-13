@@ -13,4 +13,4 @@ brew "nikolaeu/numi/numi-cli"
 cask "dbeaver-community"
 brew "postgresql"
 brew "sqlc"
-
+cask "nikitabobko/tap/aerospace"
