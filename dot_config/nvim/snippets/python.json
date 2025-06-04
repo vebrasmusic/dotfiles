@@ -1,0 +1,12 @@
+{
+  "Print Rule Block": {
+    "prefix": "pr",
+    "body": [
+      "print(\"-----------------------------------\")",
+      "print(${1:variable})",
+      "pprint(${2:object})",
+      "print(\"-----------------------------------\")"
+    ],
+    "description": "Print a visual separator with variable and object output"
+  }
+}
