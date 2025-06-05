@@ -1,4 +1,5 @@
 tap "nikolaeu/numi"
+cask "ghostty"
 brew "chezmoi"
 brew "fd"
 brew "fzf"
