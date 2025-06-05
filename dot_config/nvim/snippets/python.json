@@ -3,8 +3,8 @@
     "prefix": "pr",
     "body": [
       "print(\"-----------------------------------\")",
-      "print(${1:variable})",
-      "pprint(${2:object})",
+      "print($1)",
+      "pprint($0)",
       "print(\"-----------------------------------\")"
     ],
     "description": "Print a visual separator with variable and object output"
