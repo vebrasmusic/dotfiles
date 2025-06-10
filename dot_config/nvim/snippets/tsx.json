@@ -14,5 +14,16 @@
       "export default $1;"
     ],
     "description": "Creates a TypeScript interface and a React function component using it as props"
+  },
+  "zod schema with exported type": {
+    "prefix": "zod",
+    "body": [
+      "export const ${1:Type}Schema = z.object({",
+      "${2: Impl}",
+      "});",
+      "",
+      "export type $1 = z.infer<typeof $1Schema>;"
+    ],
+    "description": "Creates zod schema and the resulting exported type"
   }
 }
