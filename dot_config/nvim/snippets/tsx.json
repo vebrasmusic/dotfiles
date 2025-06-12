@@ -30,5 +30,21 @@
     "prefix": "deps",
     "body": ["// eslint-disable-next-line react-hooks/exhaustive-deps"],
     "description": "for annoying use effect deps warning"
+  },
+  "console log group block": {
+    "prefix": "csl",
+    "body": [
+      "console.group(${1: desc})",
+      "${2: log stmt}",
+      "console.groupEnd()"
+    ]
+  },
+  "set prop for obj in immer array": {
+    "prefix": "setprop",
+    "body": [
+      "set${1: setter}((draft) => {",
+      "let ind = draft.findIndex(${2:predicate});",
+      "draft[ind].${3:prop} = ${4: new-val};"
+    ]
   }
 }
