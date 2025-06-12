@@ -25,5 +25,10 @@
       "export type $1 = z.infer<typeof $1Schema>;"
     ],
     "description": "Creates zod schema and the resulting exported type"
+  },
+  "eslint ignore exhaustive deps": {
+    "prefix": "deps",
+    "body": ["// eslint-disable-next-line react-hooks/exhaustive-deps"],
+    "description": "for annoying use effect deps warning"
   }
 }
