@@ -43,8 +43,10 @@
     "prefix": "setprop",
     "body": [
       "set${1: setter}((draft) => {",
-      "let ind = draft.findIndex(${2:predicate});",
-      "draft[ind].${3:prop} = ${4: new-val};"
+      "let ind = draft.findIndex\\(${2:predicate}\\);",
+      "draft[ind].${3:prop} = ${4: new-val};",
+      "",
+      "})"
     ]
   }
 }
