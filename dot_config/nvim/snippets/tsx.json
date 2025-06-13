@@ -43,10 +43,20 @@
     "prefix": "setprop",
     "body": [
       "set${1: setter}((draft) => {",
-      "let ind = draft.findIndex\\(${2:predicate}\\);",
+      "let ind = draft.findIndex( ${2:predicate} );",
       "draft[ind].${3:prop} = ${4: new-val};",
       "",
       "})"
+    ]
+  },
+  "use effect for a state var": {
+    "prefix": "ue",
+    "body": [
+      "useEffect(() => {",
+      "console.group( ${1: desc} );",
+      "console.log(${2: val});",
+      "console.groupEnd();",
+      "},[$2])"
     ]
   }
 }
