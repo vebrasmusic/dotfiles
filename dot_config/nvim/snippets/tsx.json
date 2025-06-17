@@ -58,5 +58,10 @@
       "console.groupEnd();",
       "},[$2])"
     ]
+  },
+  "Docstring block": {
+    "prefix": "/**",
+    "body": ["/**", " * ${1:Describe what this does}", " */"],
+    "description": "Simple docstring block for TypeScript"
   }
 }
