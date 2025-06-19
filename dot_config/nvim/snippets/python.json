@@ -8,5 +8,10 @@
       "print(\"-----------------------------------\")"
     ],
     "description": "Print a visual separator with variable and object output"
+  },
+  "docstring block": {
+    "prefix": "'''",
+    "body": ["'''", "${1: docstring}", "'''"],
+    "description": "print dosctring"
   }
 }
