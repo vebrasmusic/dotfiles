@@ -1,0 +1,66 @@
+{
+  "react component with export": {
+    "prefix": "const",
+    "body": [
+      "const $1 = ({ $3 }) => {",
+      "  return (",
+      "  <div> ",
+      " ${0: implementation}",
+      "  </div> ",
+      "  );",
+      "};",
+      "",
+      "export default $1;"
+    ],
+    "description": "Creates a React function component"
+  },
+  "zod schema with exported type": {
+    "prefix": "zod",
+    "body": [
+      "export const ${1:Type}Schema = z.object({",
+      "${2: Impl}",
+      "});",
+      "",
+      "// Note: TypeScript types not available in JavaScript"
+    ],
+    "description": "Creates zod schema (types not available in JavaScript)"
+  },
+  "eslint ignore exhaustive deps": {
+    "prefix": "deps",
+    "body": ["// eslint-disable-next-line react-hooks/exhaustive-deps"],
+    "description": "for annoying use effect deps warning"
+  },
+  "console log group block": {
+    "prefix": "csl",
+    "body": [
+      "console.group(${1: desc})",
+      "${2: log stmt}",
+      "console.groupEnd()"
+    ]
+  },
+  "set prop for obj in immer array": {
+    "prefix": "setprop",
+    "body": [
+      "set${1: setter}((draft) => {",
+      "let ind = draft.findIndex( ${2:predicate} );",
+      "draft[ind].${3:prop} = ${4: new-val};",
+      "",
+      "})"
+    ]
+  },
+  "use effect for a state var": {
+    "prefix": "ue",
+    "body": [
+      "useEffect(() => {",
+      "console.group( ${1: desc} );",
+      "console.log(${2: val});",
+      "console.groupEnd();",
+      "},[$2])"
+    ]
+  },
+  "Docstring block": {
+    "prefix": "/**",
+    "body": ["/**", " * ${1:Describe what this does}", " */"],
+    "description": "Simple docstring block for JavaScript"
+  }
+}
