@@ -1,3 +1,6 @@
+-- undo tree
+vim.keymap.set("n", "<leader>ut", vim.cmd.UndotreeToggle)
+
 -- global note
 local global_note = require("global-note")
 vim.keymap.set("n", "<leader>gn", global_note.toggle_note, {
