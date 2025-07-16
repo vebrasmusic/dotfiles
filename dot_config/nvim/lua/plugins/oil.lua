@@ -8,9 +8,12 @@ return {
       skip_confirm_for_simple_edits = true,
       default_file_explorer = true, -- important: don't override netrw or launch automatically
       view_options = {
-        natural_order = true,
-
-        show_hidden = true,
+        sort = {
+          {
+            "name",
+            "asc",
+          },
+        },
       },
     },
     -- Optional dependencies
