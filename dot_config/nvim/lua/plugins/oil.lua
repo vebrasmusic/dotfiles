@@ -4,15 +4,17 @@ return {
     ---@module 'oil'
     ---@type oil.SetupOpts
     opts = {
-      default_file_explorer = false, -- important: don't override netrw or launch automatically
+      delete_to_trash = true,
+      skip_confirm_for_simple_edits = true,
+      default_file_explorer = true, -- important: don't override netrw or launch automatically
       view_options = {
+        natural_order = true,
+
         show_hidden = true,
       },
     },
     -- Optional dependencies
     dependencies = { { "echasnovski/mini.icons", opts = {} } },
-    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
-    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
     lazy = false,
   },
 }
