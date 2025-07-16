@@ -4,7 +4,7 @@ return {
   opts = {
     styles = {
       zen = {
-        width = 90,
+        width = 100,
       },
     },
     explorer = {
