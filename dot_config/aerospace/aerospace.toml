@@ -171,6 +171,11 @@ run = 'move-node-to-workspace 1'
 if.app-id = 'com.google.Chrome'
 run = 'move-node-to-workspace 2'
 
+
+[[on-window-detected]]
+if.app-id = 'com.duckduckgo.macos.browser'
+run = 'move-node-to-workspace 2'
+
 [[on-window-detected]]
 # cursor, has a weird id
 if.app-id = 'com.todesktop.230313mzl4w4u92'
