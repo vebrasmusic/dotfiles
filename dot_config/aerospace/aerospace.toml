@@ -214,7 +214,7 @@ if.app-id = 'com.apple.mail'
 run = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
-if.app-id = 'it.bloop.airmail2'
+if.app-id = 'io.canarymail.mac'
 run = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
