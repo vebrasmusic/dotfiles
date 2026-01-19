@@ -221,6 +221,10 @@ run = 'move-node-to-workspace 4'
 if.app-id = 'com.todoist.mac.Todoist'
 run = 'move-node-to-workspace 4'
 
+[[on-window-detected]]
+if.app-id = 'com.apple.reminders'
+run = 'move-node-to-workspace 4'
+
 # catchall for the rest
 [[on-window-detected]]
 run = 'move-node-to-workspace 5'
