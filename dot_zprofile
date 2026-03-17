@@ -1,2 +1,2 @@
 export PNPM_HOME="$HOME/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
+export PATH="$PNPM_HOME:$HOME/.local/bin:$(go env GOPATH)/bin:$PATH"
