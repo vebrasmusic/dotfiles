@@ -162,6 +162,9 @@ down = 'volume down'
 up = 'volume up'
 shift-down = ['volume set 0', 'mode main']
 
+
+# ---------- window 1
+
 # start auto sending windows to the right workspace
 [[on-window-detected]]
 if.app-id = 'com.googlecode.iterm2'
@@ -176,9 +179,14 @@ if.app-id = 'com.openai.codex'
 run = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
+if.app-id = 'com.axosoft.gitkraken'
+run = 'move-node-to-workspace 1'
+
+# ---------- window 2
+
+[[on-window-detected]]
 if.app-id = 'com.google.Chrome'
 run = 'move-node-to-workspace 2'
-
 
 [[on-window-detected]]
 if.app-id = 'com.duckduckgo.macos.browser'
@@ -187,6 +195,8 @@ run = 'move-node-to-workspace 2'
 [[on-window-detected]]
 if.app-id = 'com.vivaldi.Vivaldi'
 run = 'move-node-to-workspace 2'
+
+# ---------- window 3
 
 [[on-window-detected]]
 # cursor, has a weird id
@@ -200,6 +210,8 @@ run = 'move-node-to-workspace 3'
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.pycharm.ce'
 run = 'move-node-to-workspace 3'
+
+# ---------- window 4
 
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
@@ -232,6 +244,8 @@ run = 'move-node-to-workspace 4'
 [[on-window-detected]]
 if.app-id = 'com.apple.reminders'
 run = 'move-node-to-workspace 4'
+
+# ---------- window 5
 
 # catchall for the rest
 [[on-window-detected]]
