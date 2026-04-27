@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nvm --version)",
+      "Bash(nvm ls *)",
+      "Read(//Users/andresharisaduvvuri/.nvm/**)",
+      "Read(//Users/andresharisaduvvuri/.nvm/versions/**)",
+      "Read(//usr/local/bin/**)",
+      "Bash(brew list *)"
+    ]
+  }
+}
