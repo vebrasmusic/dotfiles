@@ -179,10 +179,6 @@ if.app-id = 'com.jetbrains.rider'
 run = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
-if.app-id = 'com.openai.codex'
-run = 'move-node-to-workspace 1'
-
-[[on-window-detected]]
 if.app-id = 'com.axosoft.gitkraken'
 run = 'move-node-to-workspace 1'
 
@@ -208,7 +204,18 @@ if.app-id = 'com.todesktop.230313mzl4w4u92'
 run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
+# ChatGPT Classic
 if.app-id = 'com.openai.chat'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+# ChatGPT (formerly the Codex app, kept the com.openai.codex id)
+if.app-id = 'com.openai.codex'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+# Claude desktop
+if.app-id = 'com.anthropic.claudefordesktop'
 run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
