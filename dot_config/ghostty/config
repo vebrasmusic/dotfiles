@@ -1,3 +1,4 @@
 font-size=22
+confirm-close-surface = false
 theme=traffic
 font-family = "JetBrainsMono NFM SemiBold"
