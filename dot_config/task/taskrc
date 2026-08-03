@@ -1,0 +1,49 @@
+news.version=3.4.2
+
+# To use the default location of the XDG directories,
+# move this configuration file from ~/.taskrc to ~/.config/task/taskrc and update location config as follows:
+
+data.location=~/.local/share/task
+hooks.location=~/.config/task/hooks
+
+# Color theme (uncomment one to use)
+#include light-16.theme
+#include light-256.theme
+#include bubblegum-256.theme
+#include dark-16.theme
+include dark-256.theme
+#include dark-red-256.theme
+#include dark-green-256.theme
+#include dark-blue-256.theme
+#include dark-violets-256.theme
+#include dark-yellow-green.theme
+#include dark-gray-256.theme
+#include dark-gray-blue-256.theme
+#include solarized-dark-256.theme
+#include solarized-light-256.theme
+#include no-color.theme
+
+# --- fields ---------------------------------------------------------
+uda.repo.type=string
+uda.repo.label=Repo
+uda.pr.type=string
+uda.pr.label=PR
+
+# --- urgency: blockers rise, blocked sinks --------------------------
+urgency.blocking.coefficient=10.0
+urgency.blocked.coefficient=-8.0
+
+# --- the chain report -----------------------------------------------
+report.chain.description=PR chains by feature
+report.chain.columns=id,project,repo,depends,description,urgency
+report.chain.labels=ID,Feature,Repo,Needs,Task,U
+report.chain.filter=status:pending
+report.chain.sort=project+,urgency-
+
+# --- ready, with repo visible ---------------------------------------
+report.ready.columns=id,age,project,repo,description,urgency
+report.ready.labels=ID,Age,Feature,Repo,Task,U
+
+# --- contexts --------------------------------------------------------
+context.satomic.read=project.not:personal
+context.satomic.write=project:inbox
