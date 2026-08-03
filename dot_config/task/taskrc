@@ -41,7 +41,7 @@ report.chain.filter=status:pending
 report.chain.sort=project+,urgency-
 
 # --- ready, with repo visible ---------------------------------------
-report.ready.columns=id,age,project,repo,description,urgency
+report.ready.columns=id,entry.age,project,repo,description,urgency
 report.ready.labels=ID,Age,Feature,Repo,Task,U
 
 # --- contexts --------------------------------------------------------

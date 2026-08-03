@@ -40,3 +40,40 @@ end, { desc = "Floating Terminal (Root Dir)" })
 vim.keymap.set({ "t" }, "<Esc>", function()
   float_term:close()
 end, { desc = "Toggle Floating Terminal" })
+
+-- taskwarrior (brain dump)
+-- aliased to `tw` in zsh since `task` is go-task; but shell aliases aren't
+-- available to vim.fn.system (runs via /bin/sh), so hit the binary directly.
+local tw = "/opt/homebrew/opt/task/bin/task"
+
+-- add a task to inbox, annotated with where you were (file:line)
+local function tw_add(desc)
+  if desc == nil or desc == "" then
+    return
+  end
+  local out = vim.fn.system(("%s add project:inbox %s"):format(tw, vim.fn.shellescape(desc)))
+  local id = out:match("Created task (%d+)")
+  if id then
+    local loc = vim.fn.expand("%:.") .. ":" .. vim.fn.line(".")
+    vim.fn.system(("%s %s annotate %s"):format(tw, id, vim.fn.shellescape(loc)))
+    vim.notify(("tw: added #%s → %s"):format(id, desc), vim.log.levels.INFO)
+  else
+    vim.notify("tw add failed: " .. out, vim.log.levels.ERROR)
+  end
+end
+
+-- <leader>ta → prompt for a task, dump to inbox
+vim.keymap.set("n", "<leader>ta", function()
+  tw_add(vim.fn.input("tw: "))
+end, { desc = "Task: add to inbox" })
+
+-- <leader>ta (visual) → dump the selected text as the task description
+vim.keymap.set("x", "<leader>ta", function()
+  vim.cmd('normal! "zy')
+  tw_add(vim.fn.getreg("z"):gsub("%s+", " "))
+end, { desc = "Task: add selection to inbox" })
+
+-- <leader>tl → ready list in the floating terminal
+vim.keymap.set("n", "<leader>tl", function()
+  Terminal:new({ cmd = tw .. " ready; echo; read -k1", direction = "float", close_on_exit = false }):toggle()
+end, { desc = "Task: list ready" })
