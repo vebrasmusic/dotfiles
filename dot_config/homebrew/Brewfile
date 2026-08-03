@@ -11,11 +11,18 @@ brew "postgresql"
 brew "gh"
 cask "nikitabobko/tap/aerospace"
 cask "appcleaner"
+cask "ghostty"
 brew "go-air"
 brew "go-task"
+# Taskwarrior. Both `task` and `go-task` ship a `task` binary, so keep
+# taskwarrior unlinked (go-task owns `task`) and use it via the `tw` alias.
+brew "task", link: false
 brew "ariga/tap/atlas"
 brew "golangci-lint"
 tap "f1bonacc1/tap"
 brew "process-compose"
 tap "anomalyco/tap"
 brew "opencode"
+
+# for env support of node
+brew "fnm"

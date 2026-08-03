@@ -6,7 +6,10 @@
       "Read(//Users/andresharisaduvvuri/.nvm/**)",
       "Read(//Users/andresharisaduvvuri/.nvm/versions/**)",
       "Read(//usr/local/bin/**)",
-      "Bash(brew list *)"
+      "Bash(brew list *)",
+      "Bash(aerospace --version)",
+      "Read(//Users/satomic/.claude/**)",
+      "Read(//Users/satomic/.claude/plugins/**)"
     ]
   }
 }

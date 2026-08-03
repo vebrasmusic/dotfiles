@@ -32,9 +32,12 @@ require("lazy").setup({
   },
   install = { colorscheme = { "tokyonight", "habamax" } },
   checker = {
-    enabled = true, -- check for plugin updates periodically
-    notify = false, -- notify on update
-  }, -- automatically check for plugin updates
+    -- Disabled on purpose: plugin versions are pinned in lazy-lock.json and we
+    -- only update deliberately via `:Lazy update` (then commit the new lock).
+    -- This stops background update churn like the treesitter-textobjects breakage.
+    enabled = false,
+    notify = false,
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins

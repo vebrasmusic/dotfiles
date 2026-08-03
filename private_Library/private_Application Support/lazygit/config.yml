@@ -1,0 +1,8 @@
+# lazygit config
+#
+# This file mainly needs to exist: snacks.nvim (LazyVim's <leader>gg) passes
+# this path to lazygit via LG_CONFIG_FILE and layers its generated theme on top.
+# Without the file, lazygit errors: "stat .../config.yml: no such file or directory".
+#
+# Add your own lazygit overrides below. Docs:
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md

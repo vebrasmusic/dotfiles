@@ -1,8 +1,12 @@
-. "$HOME/.local/bin/env"
+# uv/rustup standalone-installer env; guard it so a fresh machine (where the file
+# may not exist because these come from Homebrew) doesn't error on every new shell.
+[ -s "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+eval "$(fnm env --use-on-cd)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -10,6 +14,8 @@ if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
 fi
 
+# Taskwarrior, via its stable opt path since `task` is taken by go-task (the runner).
+alias tw="/opt/homebrew/opt/task/bin/task"
 alias sirch_browser="cd ~/Documents/GitHub/sirch_browser"
 alias projects="cd ~/Documents/GitHub"
 alias brew-install="brew bundle --file=~/.config/homebrew/Brewfile --no-upgrade"

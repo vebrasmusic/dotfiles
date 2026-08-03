@@ -1,5 +1,6 @@
 # Place a copy of this config to ~/.aerospace.toml
 # After that, you can edit ~/.aerospace.toml to your liking
+config-version = 2
 
 # You can use it to add commands that run after login to macOS user session.
 # 'start-at-login' needs to be 'true' for 'after-login-command' to work
@@ -259,5 +260,9 @@ run = 'move-node-to-workspace 4'
 # ---------- window 5
 
 # catchall for the rest
+# `if = 'true'` is required since AeroSpace 0.21+ (omitting `if` is now an error).
+# We intentionally do NOT set `check-further-callbacks = true`: callbacks stop at
+# the first match by default, so only windows unmatched by the rules above reach here.
 [[on-window-detected]]
+if = 'true'
 run = 'move-node-to-workspace 5'
