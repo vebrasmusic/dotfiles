@@ -11,6 +11,8 @@ eval "$(fnm env --use-on-cd)"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 if command -v fzf >/dev/null 2>&1; then
+  # Alt-C (Esc-c): only list dirs in the current level, never recurse into subdirs.
+  export FZF_ALT_C_COMMAND='fd --type d --max-depth 1 --hidden --follow --exclude .git'
   source <(fzf --zsh)
 fi
 
