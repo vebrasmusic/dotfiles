@@ -11,7 +11,7 @@ return {
     providers = {
       claude = {
         endpoint = "https://api.anthropic.com",
-        model = "claude-sonnet-4-6",
+        model = "claude-opus-5",
         -- Read the key from the macOS Keychain on demand. Using the `cmd:` form
         -- makes avante fetch the key via this command instead of an env var, so
         -- it NEVER prompts you to paste a key on startup. Store the key once with:
