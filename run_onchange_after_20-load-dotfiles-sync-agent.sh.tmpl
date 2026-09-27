@@ -1,0 +1,7 @@
+#!/bin/bash
+# (Re)load the dotfiles-sync launch agent whenever its plist changes.
+# plist hash: {{ include "private_Library/LaunchAgents/com.andresharisaduvvuri.dotfiles-sync.plist.tmpl" | sha256sum }}
+set -euo pipefail
+agent_plist="$HOME/Library/LaunchAgents/com.andresharisaduvvuri.dotfiles-sync.plist"
+launchctl bootout "gui/$(id -u)" "$agent_plist" 2>/dev/null || true
+launchctl bootstrap "gui/$(id -u)" "$agent_plist"

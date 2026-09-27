@@ -1,0 +1,4 @@
+#!/bin/bash
+# Re-run brew-sync whenever the Brewfile changes on `chezmoi apply` / `chezmoi update`.
+# Brewfile hash: {{ include "dot_config/homebrew/Brewfile" | sha256sum }}
+exec "$HOME/.local/bin/brew-sync"

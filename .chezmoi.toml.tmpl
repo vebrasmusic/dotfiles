@@ -1,0 +1,9 @@
+{{- /* Rendered into ~/.config/chezmoi/chezmoi.toml by `chezmoi init`. */ -}}
+{{- $brewCleanup := promptBoolOnce . "brewCleanup" "Uninstall Homebrew packages that aren't in the Brewfile on this machine" -}}
+[data]
+    brewCleanup = {{ $brewCleanup }}
+
+[git]
+    # `chezmoi add` / `edit` / `re-add` commit and push to GitHub immediately.
+    autoCommit = true
+    autoPush = true

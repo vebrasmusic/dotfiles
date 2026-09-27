@@ -16,9 +16,14 @@ if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
 fi
 
-# Taskwarrior, via its stable opt path since `task` is taken by go-task (the runner).
-alias tw="/opt/homebrew/opt/task/bin/task"
+# Homebrew only upgrades when explicitly asked (`brew upgrade`): `brew install foo` won't
+# also upgrade foo if outdated, and upgrading one package won't cascade into its dependents.
+export HOMEBREW_NO_INSTALL_UPGRADE=1
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+
 alias sirch_browser="cd ~/Documents/GitHub/sirch_browser"
 alias projects="cd ~/Documents/GitHub"
-alias brew-install="brew bundle --file=~/.config/homebrew/Brewfile --no-upgrade"
-alias chezmoi-sync="source ~/.zshrc && brew-install"
+# Make Homebrew match the Brewfile (installs missing, removes extras on cleanup-enabled machines).
+alias brew-install="brew-sync"
+# Pull + apply dotfiles, then brew-sync. The dotfiles-sync launch agent also runs this at login and every 4h.
+alias chezmoi-sync="dotfiles-sync && source ~/.zshrc"

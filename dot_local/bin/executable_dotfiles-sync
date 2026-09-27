@@ -1,0 +1,38 @@
+#!/bin/bash
+# Pull dotfiles from GitHub, apply them, then make Homebrew match the Brewfile.
+# Run by the com.andresharisaduvvuri.dotfiles-sync launch agent at login and every 4 hours,
+# or by hand via the `chezmoi-sync` alias.
+# Log: ~/Library/Logs/dotfiles-sync.log
+set -uo pipefail
+
+log_file="$HOME/Library/Logs/dotfiles-sync.log"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+exec > >(tee -a "$log_file") 2>&1
+
+notify() {
+  osascript -e "display notification \"$1\" with title \"dotfiles-sync\"" >/dev/null 2>&1 || true
+}
+
+echo "=== $(date '+%Y-%m-%d %H:%M:%S') dotfiles-sync ==="
+
+# A chezmoi apply already in progress (e.g. the one that just loaded this agent) holds the state lock.
+if pgrep -x chezmoi >/dev/null 2>&1; then
+  echo "chezmoi is already running; skipping this round."
+  exit 0
+fi
+
+# Never overwrite dotfiles that were edited directly on this machine. The first column of
+# `chezmoi status` marks targets changed since chezmoi last wrote them.
+locally_edited=$(chezmoi status 2>/dev/null | awk 'substr($0,1,1) != " " {print substr($0,4)}')
+if [ -n "$locally_edited" ]; then
+  echo "Local edits not yet in the repo, skipping pull: $locally_edited"
+  notify "Local dotfile edits (run chezmoi re-add to push them): $(echo "$locally_edited" | tr '\n' ' ')"
+else
+  if ! chezmoi update --no-tty; then
+    notify "chezmoi update failed, see ~/Library/Logs/dotfiles-sync.log"
+  fi
+fi
+
+# Always enforce the Brewfile, so packages installed ad hoc get removed even when it didn't change.
+"$HOME/.local/bin/brew-sync"

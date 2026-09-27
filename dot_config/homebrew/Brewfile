@@ -1,28 +1,32 @@
+# Single source of truth for Homebrew on every machine.
+# `brew-sync` (run by chezmoi and the dotfiles-sync launch agent) installs what's here and,
+# on machines with brewCleanup enabled, uninstalls anything that isn't. It never upgrades:
+# run `brew upgrade` yourself when you want new versions.
+
+tap "nikitabobko/tap"
+
+# Shell & CLI
 brew "chezmoi"
 brew "fd"
 brew "fzf"
+brew "gh"
 brew "lazygit"
-brew "luarocks"
-brew "neovim"
 brew "ripgrep"
 brew "tmux"
-brew "uv"
-brew "postgresql"
-brew "gh"
+
+# Editor
+brew "neovim"
+brew "luarocks"
+
+# Languages & runtimes
+brew "go"
+brew "fnm"   # Node versions
+brew "uv"    # Python
+
+# Pinned major version: moving Postgres to a new major needs a manual pg_upgrade of the data dir
+brew "postgresql@18"
+
+# Apps
 cask "nikitabobko/tap/aerospace"
 cask "appcleaner"
 cask "ghostty"
-brew "go-air"
-brew "go-task"
-# Taskwarrior. Both `task` and `go-task` ship a `task` binary, so keep
-# taskwarrior unlinked (go-task owns `task`) and use it via the `tw` alias.
-brew "task", link: false
-brew "ariga/tap/atlas"
-brew "golangci-lint"
-tap "f1bonacc1/tap"
-brew "process-compose"
-tap "anomalyco/tap"
-brew "opencode"
-
-# for env support of node
-brew "fnm"

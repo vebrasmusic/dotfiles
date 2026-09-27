@@ -1,0 +1,99 @@
+#!/bin/bash
+# Make Homebrew on this Mac match ~/.config/homebrew/Brewfile.
+#   - installs anything missing, but never upgrades (run `brew upgrade` yourself for new versions)
+#   - on machines where `chezmoi init` enabled brewCleanup, uninstalls everything not in the Brewfile
+# Runs from chezmoi when the Brewfile changes and from dotfiles-sync at login / every 4h.
+# Log: ~/Library/Logs/brew-sync.log
+set -uo pipefail
+
+brewfile="$HOME/.config/homebrew/Brewfile"
+log_file="$HOME/Library/Logs/brew-sync.log"
+cleanup_enabled={{ if hasKey . "brewCleanup" }}{{ .brewCleanup }}{{ else }}false{{ end }}
+# A Brewfile with fewer entries than this is treated as broken/truncated: never clean up against it.
+minimum_brewfile_entries=5
+
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+export HOMEBREW_NO_INSTALL_UPGRADE=1
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+export HOMEBREW_NO_ENV_HINTS=1
+
+exec > >(tee -a "$log_file") 2>&1
+
+notify() {
+  osascript -e "display notification \"$1\" with title \"brew-sync\"" >/dev/null 2>&1 || true
+}
+
+installed_packages() {
+  { brew list -1 --formula; brew list -1 --cask; } 2>/dev/null | sort -u
+}
+
+echo "=== $(date '+%Y-%m-%d %H:%M:%S') brew-sync (cleanup: $cleanup_enabled) ==="
+
+if [ ! -f "$brewfile" ]; then
+  echo "No Brewfile at $brewfile; nothing to do."
+  exit 0
+fi
+
+if ! brew bundle install --file "$brewfile" --no-upgrade; then
+  notify "Installing from the Brewfile failed, see ~/Library/Logs/brew-sync.log"
+  exit 1
+fi
+
+if [ "$cleanup_enabled" != "true" ]; then
+  echo "Cleanup is disabled on this machine (re-run \`chezmoi init\` to change)."
+  exit 0
+fi
+
+brewfile_entry_count=$(grep -cE '^[[:space:]]*(brew|cask|tap)[[:space:]]' "$brewfile" || true)
+if [ "$brewfile_entry_count" -lt "$minimum_brewfile_entries" ]; then
+  echo "Brewfile has only $brewfile_entry_count entries; refusing to uninstall anything."
+  notify "Brewfile looks truncated ($brewfile_entry_count entries), skipped cleanup"
+  exit 1
+fi
+
+# Mark every Brewfile formula as explicitly wanted, so `brew autoremove` can't treat one that was
+# first installed as a dependency (e.g. go) as an orphan.
+brewfile_formulae=$(brew bundle list --formula --file "$brewfile" 2>/dev/null | sed 's#.*/##')
+if [ -n "$brewfile_formulae" ]; then
+  # shellcheck disable=SC2086
+  brew tab --installed-on-request $brewfile_formulae >/dev/null 2>&1 || true
+fi
+
+packages_before=$(installed_packages)
+
+# Homebrew 7.0 bug: `brew bundle cleanup --force` deletes the trust list (brew trust), even for
+# taps still in the Brewfile, which then breaks its own trailing `brew cleanup`. Put the list back
+# afterwards and prune old versions ourselves.
+trust_file="${XDG_CONFIG_HOME:+$XDG_CONFIG_HOME/homebrew/trust.json}"
+trust_file="${trust_file:-$HOME/.homebrew/trust.json}"
+trust_backup=$(mktemp)
+[ -f "$trust_file" ] && cp "$trust_file" "$trust_backup"
+brew bundle cleanup --file "$brewfile" --force || echo "(a failed trailing 'brew cleanup' above is the trust-list bug; handled below)"
+if [ -s "$trust_backup" ]; then
+  mkdir -p "$(dirname "$trust_file")"
+  cp "$trust_backup" "$trust_file"
+fi
+rm -f "$trust_backup"
+
+brew autoremove
+brew cleanup || echo "brew cleanup failed (old versions not pruned); not fatal"
+packages_after=$(installed_packages)
+
+# Anything the cleanup couldn't remove shows up in a dry run. The "Would remove:" lines are just old
+# versions for `brew cleanup` to prune, so only the uninstall/untap sections count.
+leftover_extras=$(brew bundle cleanup --file "$brewfile" 2>/dev/null | awk '
+  /^Would (uninstall|untap)/ { in_section = 1; next }
+  /^Would /                  { in_section = 0 }
+  in_section                 { print }' | tr '\n' ' ' | sed 's/ $//')
+if [ -n "$leftover_extras" ]; then
+  echo "Still installed but not in the Brewfile: $leftover_extras"
+  notify "Couldn't remove (not in Brewfile): $leftover_extras"
+fi
+
+removed_packages=$(comm -23 <(echo "$packages_before") <(echo "$packages_after") | tr '\n' ' ' | sed 's/ $//')
+if [ -n "$removed_packages" ]; then
+  echo "Removed: $removed_packages"
+  notify "Removed (not in Brewfile): $removed_packages"
+else
+  echo "Nothing to remove."
+fi
