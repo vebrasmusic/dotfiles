@@ -7,3 +7,6 @@ dot_aws/
 
 .DS_Store
 dot_DS_Store
+
+# Repo docs, not dotfiles
+README.md
