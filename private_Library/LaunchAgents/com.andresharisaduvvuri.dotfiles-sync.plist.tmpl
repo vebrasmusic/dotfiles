@@ -10,8 +10,13 @@
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
-	<key>StartInterval</key>
-	<integer>14400</integer>
+	<!-- Hourly on the wall clock; hours missed while asleep coalesce into one run on wake.
+	     (StartInterval only counts awake time.) dotfiles-sync itself throttles to every 4h. -->
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Minute</key>
+		<integer>0</integer>
+	</dict>
 	<key>ProcessType</key>
 	<string>Background</string>
 	<key>LowPriorityIO</key>

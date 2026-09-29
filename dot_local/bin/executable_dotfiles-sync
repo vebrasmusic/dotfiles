@@ -1,12 +1,31 @@
 #!/bin/bash
 # Pull dotfiles from GitHub, apply them, then make Homebrew match the Brewfile.
-# Run by the com.andresharisaduvvuri.dotfiles-sync launch agent at login and every 4 hours,
-# or by hand via the `chezmoi-sync` alias.
+# The com.andresharisaduvvuri.dotfiles-sync launch agent calls this at login and hourly (missed hours
+# fire on wake); it only syncs when someone is at the Mac and the last sync is 4+ hours old.
+# `dotfiles-sync --now` (the `chezmoi-sync` alias) skips the 4-hour throttle.
 # Log: ~/Library/Logs/dotfiles-sync.log
 set -uo pipefail
 
 log_file="$HOME/Library/Logs/dotfiles-sync.log"
+last_sync_marker="$HOME/Library/Caches/dotfiles-sync.last-sync"
+minimum_seconds_between_syncs=14400
+maximum_user_idle_seconds=600
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+# Never sync unattended (e.g. a launchd run fired by a lid-closed dark wake): a notification posted
+# then makes NotificationCenter force a lid-closed display wake, the trigger behind the WindowServer
+# watchdog kills. Keyboard/mouse input in the last 10 minutes means someone is here.
+user_idle_seconds=$(ioreg -c IOHIDSystem | awk '/HIDIdleTime/ {print int($NF / 1000000000); exit}')
+if [ "${user_idle_seconds:-0}" -gt "$maximum_user_idle_seconds" ]; then
+  exit 0
+fi
+
+if [ "${1:-}" != "--now" ] && [ -f "$last_sync_marker" ]; then
+  seconds_since_last_sync=$(( $(date +%s) - $(stat -f %m "$last_sync_marker") ))
+  if [ "$seconds_since_last_sync" -lt "$minimum_seconds_between_syncs" ]; then
+    exit 0
+  fi
+fi
 
 exec > >(tee -a "$log_file") 2>&1
 
@@ -36,3 +55,6 @@ fi
 
 # Always enforce the Brewfile, so packages installed ad hoc get removed even when it didn't change.
 "$HOME/.local/bin/brew-sync"
+
+mkdir -p "$(dirname "$last_sync_marker")"
+touch "$last_sync_marker"

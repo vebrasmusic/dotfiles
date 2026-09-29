@@ -25,5 +25,6 @@ alias sirch_browser="cd ~/Documents/GitHub/sirch_browser"
 alias projects="cd ~/Documents/GitHub"
 # Make Homebrew match the Brewfile (installs missing, removes extras on cleanup-enabled machines).
 alias brew-install="brew-sync"
-# Pull + apply dotfiles, then brew-sync. The dotfiles-sync launch agent also runs this at login and every 4h.
-alias chezmoi-sync="dotfiles-sync && source ~/.zshrc"
+# Pull + apply dotfiles, then brew-sync, right now. The dotfiles-sync launch agent also runs it
+# on its own (at most every 4h, only while you're at the Mac).
+alias chezmoi-sync="dotfiles-sync --now && source ~/.zshrc"
