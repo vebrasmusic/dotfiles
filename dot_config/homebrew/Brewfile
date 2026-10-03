@@ -2,6 +2,7 @@
 # `brew-sync` (run by chezmoi and the dotfiles-sync launch agent) installs what's here and,
 # on machines with brewCleanup enabled, uninstalls anything that isn't. It never upgrades:
 # run `brew upgrade` yourself when you want new versions.
+# To add something, run `brew-add <name>` instead of `brew install <name>`.
 
 tap "nikitabobko/tap"
 

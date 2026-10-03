@@ -1,0 +1,75 @@
+#!/bin/bash
+# brew-add <package> [<package> ...]
+#
+# Use this instead of `brew install`: brew-sync uninstalls anything that isn't in the Brewfile.
+# Adds the packages to the Brewfile (the copy in the chezmoi repo), installs them, then commits
+# and pushes so every machine gets them. Formula vs cask is detected; tap-qualified names
+# (user/tap/name) also get a `tap` line. If the install fails, the Brewfile change is undone.
+set -euo pipefail
+
+if [ $# -eq 0 ]; then
+  echo "usage: brew-add <package> [<package> ...]"
+  exit 1
+fi
+
+source_dir="$(chezmoi source-path)"
+brewfile_source_relative="dot_config/homebrew/Brewfile"
+brewfile_source="$source_dir/$brewfile_source_relative"
+added_section_header="# Added with brew-add (move into a section above whenever you like)"
+
+is_in_brewfile() {
+  # Matches `brew "name"`, `cask "name"`, and `brew "name", link: false`, ignoring trailing comments.
+  awk -v quoted_name="\"$1\"" '
+    ($1 == "brew" || $1 == "cask") { entry = $2; sub(/,$/, "", entry); if (entry == quoted_name) found = 1 }
+    END { exit !found }' "$brewfile_source"
+}
+
+new_brewfile_lines=()
+added_package_names=()
+for package_name in "$@"; do
+  if is_in_brewfile "$package_name"; then
+    echo "$package_name is already in the Brewfile."
+    continue
+  fi
+  if brew info --formula "$package_name" >/dev/null 2>&1; then
+    entry_type="brew"
+  elif brew info --cask "$package_name" >/dev/null 2>&1; then
+    entry_type="cask"
+  else
+    echo "No Homebrew formula or cask named '$package_name' (check the name with: brew search $package_name)."
+    exit 1
+  fi
+  if [[ "$package_name" == */*/* ]]; then
+    tap_name="${package_name%/*}"
+    if ! grep -qE "^tap \"$tap_name\"" "$brewfile_source"; then
+      new_brewfile_lines+=("tap \"$tap_name\"")
+    fi
+  fi
+  new_brewfile_lines+=("$entry_type \"$package_name\"")
+  added_package_names+=("$package_name")
+done
+
+if [ ${#added_package_names[@]} -eq 0 ]; then
+  exit 0
+fi
+
+if ! grep -qxF "$added_section_header" "$brewfile_source"; then
+  printf '\n%s\n' "$added_section_header" >> "$brewfile_source"
+fi
+printf '%s\n' "${new_brewfile_lines[@]}" >> "$brewfile_source"
+
+# Writes ~/.config/homebrew/Brewfile; because it changed, chezmoi then runs brew-sync, which installs.
+if ! chezmoi apply; then
+  echo "Install failed; undoing the Brewfile change."
+  chezmoi git -- checkout -- "$brewfile_source_relative"
+  chezmoi apply ~/.config/homebrew/Brewfile
+  exit 1
+fi
+
+chezmoi git -- add "$brewfile_source_relative"
+chezmoi git -- commit -q -m "Brewfile: add ${added_package_names[*]}"
+if chezmoi git -- push -q; then
+  echo "Added ${added_package_names[*]} to the Brewfile, installed, and pushed."
+else
+  echo "Added ${added_package_names[*]} and installed; committed locally but the push failed (run: chezmoi git push)."
+fi
