@@ -6,6 +6,7 @@
 tap "nikitabobko/tap"
 
 # Shell & CLI
+brew "awscli"
 brew "chezmoi"
 brew "fd"
 brew "fzf"
