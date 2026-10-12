@@ -1,0 +1,20 @@
+let mapleader = " "
+
+Plug 'machakann/vim-highlightedyank'
+Plug 'tpope/vim-surround'
+
+
+set clipboard+=unnamed
+
+:map <leader><leader> <Action>(SearchEverywhere)
+:map <leader>/ <Action>(FindInPath)
+:map <leader>ft <Action>(ActivateTerminalToolWindow)
+:map <leader>ca <Action>(ShowIntentionActions)
+:map <leader>gg <Action>(ActivateVersionControlToolWindow)
+
+:map K <Action>(QuickJavaDoc)
+:map <leader>gd <Action>(GotoDeclaration)
+:map <leader>gr <Action>(FindUsages)
+
+:map <leader>bd <Action>(CloseContent)
+
