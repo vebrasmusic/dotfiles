@@ -32,3 +32,6 @@ brew "postgresql@18"
 cask "nikitabobko/tap/aerospace"
 cask "appcleaner"
 cask "ghostty"
+
+# Added with brew-add (move into a section above whenever you like)
+cask "libreoffice"
