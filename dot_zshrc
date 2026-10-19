@@ -28,3 +28,6 @@ alias brew-install="brew-sync"
 # Pull + apply dotfiles, then brew-sync, right now. The dotfiles-sync launch agent also runs it
 # on its own (at most every 4h, only while you're at the Mac).
 alias chezmoi-sync="dotfiles-sync --now && source ~/.zshrc"
+
+# Unity CLI
+. "/Users/andresharisaduvvuri/.unity/env"
