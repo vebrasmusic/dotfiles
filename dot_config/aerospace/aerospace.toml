@@ -176,10 +176,6 @@ if.app-id = 'com.mitchellh.ghostty'
 run = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
-if.app-id = 'com.jetbrains.rider'
-run = 'move-node-to-workspace 1'
-
-[[on-window-detected]]
 if.app-id = 'com.axosoft.gitkraken'
 run = 'move-node-to-workspace 1'
 
@@ -258,6 +254,17 @@ if.app-id = 'com.apple.reminders'
 run = 'move-node-to-workspace 4'
 
 # ---------- window 5
+
+# Unity + Rider live together here so Unity stealing focus (e.g. after a compile) doesn't
+# switch workspaces. These MUST stay above the catchall below: callbacks stop at the first
+# match, so any rule placed after `if = 'true'` never runs.
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.rider'
+run = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+if.app-id = 'com.unity3d.UnityEditor5.x'
+run = 'move-node-to-workspace 5'
 
 # catchall for the rest
 # `if = 'true'` is required since AeroSpace 0.21+ (omitting `if` is now an error).
