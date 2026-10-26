@@ -112,6 +112,13 @@ nmap <leader>tl <Action>(RiderUnitTestRepeatPreviousRunAction)
 nmap <leader>tT <Action>(RiderUnitTestRunSolutionAction)
 nmap <leader>ts <Action>(ActivateUnitTestsToolWindow)
 
+" ---------------------------------------------------------------- ai (inline edit on the selection)
+" Select a block in visual mode, then <leader>ai opens the inline AI prompt for it.
+" With no selection it opens the prompt at the caret. Junie's own panel is the
+" action ActivateElectroJunToolWindowToolWindow if you want to map that too.
+nmap <leader>ai <Action>(AIAssistant.Editor.AskAiAssistantInEditor)
+xmap <leader>ai <Action>(AIAssistant.Editor.AskAiAssistantInEditor)
+
 " ---------------------------------------------------------------- unity (Rider only)
 nmap <leader>Ua <Action>(AttachToUnityEditorAction)
 nmap <leader>Up <Action>(TriggerPlayInUnity)
