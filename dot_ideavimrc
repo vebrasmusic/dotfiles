@@ -1,20 +1,122 @@
+" IdeaVim config for Rider/JetBrains IDEs. Mirrors my LazyVim keymaps (leader = space).
+" Managed by chezmoi: edit ~/.local/share/chezmoi/dot_ideavimrc, not ~/.ideavimrc.
+" Look up action ids inside the IDE with  :actionlist <word>   (e.g. :actionlist unity)
+
 let mapleader = " "
 
-Plug 'machakann/vim-highlightedyank'
-Plug 'tpope/vim-surround'
-
-
+" ---------------------------------------------------------------- options
+set number relativenumber
+set scrolloff=4
+set ignorecase smartcase
+set incsearch hlsearch
 set clipboard+=unnamed
 
-:map <leader><leader> <Action>(SearchEverywhere)
-:map <leader>/ <Action>(FindInPath)
-:map <leader>ft <Action>(ActivateTerminalToolWindow)
-:map <leader>ca <Action>(ShowIntentionActions)
-:map <leader>gg <Action>(ActivateVersionControlToolWindow)
+" ---------------------------------------------------------------- plugins
+Plug 'machakann/vim-highlightedyank'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+" leap.nvim stand-in: s{char}{char} forward, S{char}{char} backward
+Plug 'justinmk/vim-sneak'
 
-:map K <Action>(QuickJavaDoc)
-:map <leader>gd <Action>(GotoDeclaration)
-:map <leader>gr <Action>(FindUsages)
+" Needs the "Which-Key" plugin installed in the IDE first (Settings > Plugins).
+" Uncomment both lines after installing it; it gives the LazyVim-style leader popup.
+" set which-key
+" set notimeout
 
-:map <leader>bd <Action>(CloseContent)
+" mini.surround bindings (gsa / gsd / gsr) on top of vim-surround
+nmap gsa <Plug>YSurround
+xmap gsa <Plug>VSurround
+nmap gsd <Plug>DSurround
+nmap gsr <Plug>CSurround
 
+" ---------------------------------------------------------------- find (fzf / snacks pickers)
+nmap <leader><leader> <Action>(GotoFile)
+nmap <leader>ff <Action>(GotoFile)
+nmap <leader>fr <Action>(RecentFiles)
+nmap <leader>fb <Action>(RecentFiles)
+nmap <leader>/ <Action>(FindInPath)
+nmap <leader>sg <Action>(FindInPath)
+nmap <leader>sr <Action>(ReplaceInPath)
+nmap <leader>ss <Action>(FileStructurePopup)
+nmap <leader>sS <Action>(GotoSymbol)
+nmap <leader>sa <Action>(SearchEverywhere)
+nmap <leader>: <Action>(GotoAction)
+
+" file tree (nvim: <leader>n focuses the tree)
+nmap <leader>e <Action>(ActivateProjectToolWindow)
+nmap <leader>n <Action>(ActivateProjectToolWindow)
+
+" ---------------------------------------------------------------- lsp / code
+nmap gd <Action>(GotoDeclaration)
+nmap gr <Action>(ShowUsages)
+nmap gI <Action>(GotoImplementation)
+nmap gy <Action>(GotoTypeDeclaration)
+nmap K <Action>(QuickJavaDoc)
+nmap gK <Action>(ParameterInfo)
+nmap ]d <Action>(GotoNextError)
+nmap [d <Action>(GotoPreviousError)
+nmap ]h <Action>(VcsShowNextChangeMarker)
+nmap [h <Action>(VcsShowPrevChangeMarker)
+
+nmap <leader>ca <Action>(ShowIntentionActions)
+xmap <leader>ca <Action>(ShowIntentionActions)
+nmap <leader>cr <Action>(RenameElement)
+nmap <leader>cf <Action>(ReformatCode)
+xmap <leader>cf <Action>(ReformatCode)
+nmap <leader>cd <Action>(ShowErrorDescription)
+nmap <leader>co <Action>(OptimizeImports)
+nmap <leader>cR <Action>(Refactorings.QuickListPopupAction)
+nmap <leader>cg <Action>(Generate)
+nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
+
+" kept from the previous rc
+nmap <leader>gd <Action>(GotoDeclaration)
+nmap <leader>gr <Action>(FindUsages)
+
+" ---------------------------------------------------------------- buffers / windows
+nmap <S-h> <Action>(PreviousTab)
+nmap <S-l> <Action>(NextTab)
+nmap [b <Action>(PreviousTab)
+nmap ]b <Action>(NextTab)
+nmap <leader>bd <Action>(CloseContent)
+nmap <leader>bo <Action>(CloseAllEditorsButActive)
+nmap <leader>- <Action>(SplitHorizontally)
+nmap <leader><Bar> <Action>(SplitVertically)
+nmap <leader>wd <Action>(Unsplit)
+
+" ---------------------------------------------------------------- git / terminal
+nmap <leader>gg <Action>(ActivateVersionControlToolWindow)
+nmap <leader>gb <Action>(Annotate)
+nmap <leader>gf <Action>(Vcs.ShowTabbedFileHistory)
+nmap <leader>gl <Action>(Git.Log)
+nmap <leader>ft <Action>(ActivateTerminalToolWindow)
+nmap <leader>fT <Action>(ActivateTerminalToolWindow)
+
+" ---------------------------------------------------------------- debug (nvim-dap bindings)
+nmap <leader>dd <Action>(Debug)
+nmap <leader>dD <Action>(ChooseDebugConfiguration)
+nmap <leader>db <Action>(ToggleLineBreakpoint)
+nmap <leader>dB <Action>(ViewBreakpoints)
+nmap <leader>dc <Action>(Resume)
+nmap <leader>di <Action>(StepInto)
+nmap <leader>do <Action>(StepOut)
+nmap <leader>dO <Action>(StepOver)
+nmap <leader>dC <Action>(RunToCursor)
+nmap <leader>de <Action>(EvaluateExpression)
+nmap <leader>dt <Action>(Stop)
+
+" ---------------------------------------------------------------- tests (neotest bindings)
+nmap <leader>tr <Action>(RiderUnitTestRunContextAction)
+nmap <leader>td <Action>(RiderUnitTestDebugContextAction)
+nmap <leader>tl <Action>(RiderUnitTestRepeatPreviousRunAction)
+nmap <leader>tT <Action>(RiderUnitTestRunSolutionAction)
+nmap <leader>ts <Action>(ActivateUnitTestsToolWindow)
+
+" ---------------------------------------------------------------- unity (Rider only)
+nmap <leader>Ua <Action>(AttachToUnityEditorAction)
+nmap <leader>Up <Action>(TriggerPlayInUnity)
+nmap <leader>Ur <Action>(TriggerRefreshInUnity)
+nmap <leader>Ul <Action>(ShowUnityLogInRiderAction)
+
+" ---------------------------------------------------------------- misc
+nmap <leader>ur :nohlsearch<CR>
