@@ -35,3 +35,4 @@ cask "ghostty"
 
 # Added with brew-add (move into a section above whenever you like)
 cask "libreoffice"
+brew "aws-cdk"
