@@ -2,10 +2,8 @@
 # may not exist because these come from Homebrew) doesn't error on every new shell.
 [ -s "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
+# fnm is the only Node version manager (nvm is not used). It switches versions on cd from
+# .node-version / .nvmrc, or package.json "engines" when neither file exists.
 eval "$(fnm env --use-on-cd)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

@@ -63,8 +63,9 @@ Then quit Terminal and open **Ghostty** — you're running the configured setup.
   prompts for Accessibility access — allow it. If you missed the prompt: System Settings →
   Privacy & Security → Accessibility → enable **AeroSpace**. Without this, tiling/hotkeys
   do nothing. AeroSpace is set to start at login.
-- **Node (optional).** `~/.zshrc` wires up `nvm` if present, but nvm isn't installed by
-  default. Install it separately only if you need Node.
+- **Node.** `fnm` (installed from the Brewfile) is the only Node version manager; nvm is
+  not used. It starts with no Node versions, so run `fnm install 24 && fnm default 24`,
+  then `corepack enable` if you use pnpm.
 
 ---
 
