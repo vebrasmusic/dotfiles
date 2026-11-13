@@ -246,6 +246,10 @@ if.app-id = 'io.canarymail.mac'
 run = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
+if.app-id = 'ch.protonmail.desktop'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
 if.app-id = 'com.todoist.mac.Todoist'
 run = 'move-node-to-workspace 4'
 
