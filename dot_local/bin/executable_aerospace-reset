@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reset AeroSpace: send every window back to its assigned workspace, then flatten each workspace tree.
+"""Reset AeroSpace: send every window back to its assigned workspace, then flatten each workspace tree and set it back to side-by-side tiles.
 
 The app -> workspace assignments are read from the [[on-window-detected]] rules in
 ~/.config/aerospace/aerospace.toml, so that file stays the single source of truth.
@@ -55,6 +55,8 @@ def main():
     workspaces_with_windows = run_aerospace("list-workspaces", "--monitor", "all", "--empty", "no").stdout.split()
     for workspace_name in workspaces_with_windows:
         run_aerospace("flatten-workspace-tree", "--workspace", workspace_name)
+        # Flattening keeps the root container's layout, so an accidental accordion survives it.
+        run_aerospace("layout", "--workspace", workspace_name, "--root", "h_tiles")
 
 
 if __name__ == "__main__":
