@@ -25,7 +25,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 accordion-padding = 30
 
 # Possible values: tiles|accordion
-default-root-container-layout = 'tiles'
+default-root-container-layout = 'accordion'
 
 # Possible values: horizontal|vertical|auto
 # 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
@@ -144,7 +144,7 @@ alt-shift-semicolon = 'mode service'
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'layout --root h_tiles', 'mode main'] # reset layout to side-by-side tiles (current workspace only)
+r = ['flatten-workspace-tree', 'layout --root h_accordion', 'mode main'] # reset layout to accordion (current workspace only)
 # full reset: every window back to its assigned workspace + flatten all workspaces
 shift-r = ['exec-and-forget ~/.local/bin/aerospace-reset', 'mode main']
 f = [
