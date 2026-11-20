@@ -144,7 +144,9 @@ alt-shift-semicolon = 'mode service'
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'mode main'] # reset layout
+r = ['flatten-workspace-tree', 'mode main'] # reset layout (current workspace only)
+# full reset: every window back to its assigned workspace + flatten all workspaces
+shift-r = ['exec-and-forget ~/.local/bin/aerospace-reset', 'mode main']
 f = [
   'layout floating tiling',
   'mode main',

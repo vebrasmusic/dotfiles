@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+"""Reset AeroSpace: send every window back to its assigned workspace, then flatten each workspace tree.
+
+The app -> workspace assignments are read from the [[on-window-detected]] rules in
+~/.config/aerospace/aerospace.toml, so that file stays the single source of truth.
+Bound to `shift-r` in AeroSpace's service mode (alt-shift-; then shift-r).
+"""
+
+import re
+import subprocess
+import tomllib
+from pathlib import Path
+
+AEROSPACE_CONFIG_PATH = Path.home() / ".config" / "aerospace" / "aerospace.toml"
+MOVE_COMMAND_PATTERN = re.compile(r"^move-node-to-workspace\s+(\S+)$")
+
+
+def run_aerospace(*arguments):
+    return subprocess.run(["aerospace", *arguments], capture_output=True, text=True, check=False)
+
+
+def load_workspace_rules():
+    with open(AEROSPACE_CONFIG_PATH, "rb") as config_file:
+        config = tomllib.load(config_file)
+    return config.get("on-window-detected", [])
+
+
+def find_target_workspace(app_bundle_id, window_rules):
+    # Same semantics as AeroSpace: the first matching rule wins.
+    for rule in window_rules:
+        condition = rule.get("if", {})
+        matches_everything = condition is True
+        matches_app = isinstance(condition, dict) and condition.get("app-id") == app_bundle_id
+        if not (matches_everything or matches_app):
+            continue
+        move_match = MOVE_COMMAND_PATTERN.match(str(rule.get("run", "")))
+        if move_match:
+            return move_match.group(1)
+    return None
+
+
+def main():
+    window_rules = load_workspace_rules()
+
+    windows_listing = run_aerospace(
+        "list-windows", "--all", "--format", "%{window-id}|%{app-bundle-id}|%{workspace}"
+    ).stdout
+    for window_line in windows_listing.splitlines():
+        window_id, app_bundle_id, current_workspace = window_line.split("|")
+        target_workspace = find_target_workspace(app_bundle_id, window_rules)
+        if target_workspace and target_workspace != current_workspace:
+            run_aerospace("move-node-to-workspace", "--window-id", window_id, target_workspace)
+
+    # Flatten every workspace that has windows (undoes accidental deep nesting).
+    workspaces_with_windows = run_aerospace("list-workspaces", "--monitor", "all", "--empty", "no").stdout.split()
+    for workspace_name in workspaces_with_windows:
+        run_aerospace("flatten-workspace-tree", "--workspace", workspace_name)
+
+
+if __name__ == "__main__":
+    main()
